@@ -4,32 +4,37 @@ import random
 random.seed()
 pygame.init()
 
+
 class Point:
     def __init__(self, x=0, y=0):
         self.x = x
         self.y = y
+
+
 class Pole:
     def __init__(self, color, empty):
         self.empty = empty
         self.color = color
 
 
-def figure(n):
-        tab = [Point() for i in range(4)]
-        for i in range(4):
-            tab[i].x = figures[n][i] % 2 + 5
-            tab[i].y = figures[n][i] // 2
-        return tab
+def figure(n=-1):
+    if n == -1:
+        n = random.randint(0, len(figures) - 1)
+    tab = [Point() for i in range(4)]
+    for i in range(4):
+        tab[i].x = figures[n][i] % 2 + 5
+        tab[i].y = figures[n][i] // 2
+    return tab
 
-def printAll():
+def print_all():
     for y in range(M):
         for x in range(N):
-            if blocksTab[y][x].empty == True:
-                pygame.Surface.blit(gameDisplay, blockColors[blocksTab[y][x].color], (x * block_size, y * block_size))
+            if blocksTab[y][x].empty is True:
+                pygame.Surface.blit(gameDisplay, blockColors[blocksTab[y][x].color], (pos_x + x * block_size, y * block_size))
 
-def printBlock(color, tab):
+def print_block(color, tab):
     for i in range(4):
-        pygame.Surface.blit(gameDisplay, blockColors[color], (tab[i].x * block_size, tab[i].y * block_size))
+        pygame.Surface.blit(gameDisplay, blockColors[color], (pos_x + tab[i].x * block_size, tab[i].y * block_size))
 
 def rotate(isEnd):
         if isEnd:
@@ -67,7 +72,7 @@ def move(xmv, ymv, isEnd):
                 if check_y:
                     tab[i].y += ymv
 
-def checkHeight():
+def check_height():
     check = True
     for i in range(4):
         if tab[i].y + 1 > 19:
@@ -89,26 +94,27 @@ def checkSites():
                 check = False
     return check
 
-def deleteLine():
+def delete_line():
     for y in range(M):
         counter = 0
         for x in range(N):
             if blocksTab[y][x].empty:
                 counter += 1
         if counter == 10:
-            for line in range(y-1,-1,-1):
-                for x in range(0,N):
+            for line in range(y-1, -1, -1):
+                for x in range(0, N):
                     blocksTab[line + 1][x].empty = blocksTab[line][x].empty
                     blocksTab[line + 1][x].color = blocksTab[line][x].color
 
 # Config
+M = 20
+N = 10
 block_size = 30
 display_width = 500
 display_height = 700
-board_width = 300
-board_height = 600
-M = 20
-N = 10
+board_width = N * block_size
+board_height = M * block_size
+pos_x = 100
 
 black = (0, 0, 0)
 white = (255, 255, 255)
@@ -124,16 +130,11 @@ bc_orange = pygame.transform.scale(pygame.image.load('orange.bmp'), (block_size,
 
 blockColors = [bc_yellow, bc_blue, bc_azure, bc_green, bc_red, bc_violet, bc_orange]
 
-blocksTab = [[Pole(0,False) for col in range(N)] for row in range(M)]
+blocksTab = [[Pole(0, False) for col in range(N)] for row in range(M)]
 figures = [[1, 3, 5, 7], [2, 4, 5, 7], [3, 5, 4, 6], [3, 5, 4, 7], [2, 3, 5, 7], [3, 2, 4, 6], [2, 3, 4, 5]]
-tab = figure(5)
-pos_x = (display_width - block_size) / 2
-pos_y = 0
-max_x = board_width
-max_y = board_height
+tab = figure()
 
 # Initialization
-
 gameDisplay = pygame.display.set_mode((display_width, display_height), pygame.SRCALPHA)
 pygame.display.set_caption('Tetris')
 clock = pygame.time.Clock()
@@ -141,6 +142,7 @@ fps = 8
 tick = 0
 isEnd = True
 color = 1
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -162,15 +164,16 @@ while True:
     if pygame.key.get_pressed()[pygame.K_LEFT]:
             xmv = -1
     if pygame.key.get_pressed()[pygame.K_DOWN]:
-            speed  -= 3
+            speed -= 3
 
     tick += 1
     if tick % (speed) == 0: ymv = 1
-    if xmv != 0 or ymv != 0:  move(xmv, ymv, isEnd)
-    isEnd = checkHeight()
+    if xmv != 0 or ymv != 0:
+        move(xmv, ymv, isEnd)
+    isEnd = check_height()
 
     gameDisplay.fill((0,20,40))
-    printBlock(color,tab)
+    print_block(color,tab)
     for i in range(4):
         print(tab[i].x, tab[i].y)
     if not isEnd:
@@ -182,8 +185,8 @@ while True:
         while (tmp_col == color):
             tmp_col = random.randint(0, len(blockColors) - 1)
         color = tmp_col
-    deleteLine()
-    printAll()
+    delete_line()
+    print_all()
     pygame.display.update()
     clock.tick(60)
 pygame.quit()
