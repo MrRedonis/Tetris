@@ -5,24 +5,24 @@ random.seed()
 pygame.init()
 
 
-class Point:
+class Point: # Struktrua do tab[]
     def __init__(self, x=0, y=0):
         self.x = x
         self.y = y
 
 
-class Pole:
+class Pole: # Struktura do blocksTab
     def __init__(self, color, empty):
         self.empty = empty
         self.color = color
 
-def color_gen(last):
+def color_gen(last): # Generator liczb odpowiadajacych kolorom z pominieciem ostatniego.
     col = random.randint(0, len(blockColors) - 1)
     while last == col:
         col = random.randint(0, len(blockColors) - 1)
     return col
 
-def figure(n=-1):
+def figure(n=-1): # Generator figur
     if n == -1:
         n = random.randint(0, len(figures) - 1)
     tab = [Point() for i in range(4)]
@@ -31,13 +31,13 @@ def figure(n=-1):
         tab[i].y = figures[n][i] // 2
     return tab
 
-def print_all():
+def print_all(): # Funkja rysuje już postawione bloki, które są zapisane w blockColors.
     for y in range(M):
         for x in range(N):
             if blocksTab[y][x].empty is True:
                 pygame.Surface.blit(gameDisplay, blockColors[blocksTab[y][x].color], (pos_x + x * block_size, pos_y + y * block_size))
 
-def print_block(color, tab):
+def print_block(color): # Funkcja rysuje całą figurę wg wzoru w tab[].
     for i in range(4):
         pygame.Surface.blit(gameDisplay, blockColors[color], (pos_x + tab[i].x * block_size, pos_y + tab[i].y * block_size))
 
@@ -185,9 +185,7 @@ while True:
     gameDisplay.fill((0,20,40))
     pygame.Surface.blit(gameDisplay, grid, (pos_x, pos_y))
     pygame.Surface.blit(gameDisplay, panel, (pos_x*2 + board_width, pos_y))
-    print_block(color,tab)
-    for i in range(4):
-        print(tab[i].x, tab[i].y)
+    print_block(color)
     if not isEnd:
         for i in range(4):
             blocksTab[tab[i].y][tab[i].x].empty = True
