@@ -16,6 +16,11 @@ class Pole:
         self.empty = empty
         self.color = color
 
+def color_gen(last):
+    col = random.randint(0, len(blockColors) - 1)
+    while last == col:
+        col = random.randint(0, len(blockColors) - 1)
+    return col
 
 def figure(n=-1):
     if n == -1:
@@ -36,7 +41,7 @@ def print_block(color, tab):
     for i in range(4):
         pygame.Surface.blit(gameDisplay, blockColors[color], (pos_x + tab[i].x * block_size, pos_y + tab[i].y * block_size))
 
-def rotate(isEnd):
+def rotate(isEnd): # Funkcja obraca blok jeśli isEnd == True.
         if isEnd:
             point = Point(tab[1].x, tab[1].y)
             tmp = [Point() for i in range(4)]
@@ -47,23 +52,23 @@ def rotate(isEnd):
                 y = tab[i].x - point.x
                 tmp[i].x = point.x - x
                 tmp[i].y = point.y + y
-                if tmp[i].x < 0 or tmp[i].x > 10:
+                if tmp[i].x < 0 or tmp[i].x > N:
                     check_x = False
-                if tmp[i].y > 22:
+                if tmp[i].y > M-1:
                     check_y = False
             if check_x and check_y:
                 for i in range(4):
                     tab[i].x = tmp[i].x
                     tab[i].y = tmp[i].y
 
-def move(xmv, ymv, isEnd):
+def move(xmv, ymv, isEnd): # Funkcja sprawdza czy porusza się w siatce gry i porusza blokiem.
     if isEnd:
         check_x = True
         check_y = True
         for i in range(4):
-            if tab[i].x + xmv < 0 or tab[i].x + xmv > 9:
+            if tab[i].x + xmv < 0 or tab[i].x + xmv > N-1:
                 check_x = False
-            if tab[i].y + ymv > 19:
+            if tab[i].y + ymv > M-1:
                 check_y = False
         if check_x or check_y:
             for i in range(4):
@@ -72,16 +77,16 @@ def move(xmv, ymv, isEnd):
                 if check_y:
                     tab[i].y += ymv
 
-def check_height():
+def check_height(): # Funkcja sprawdza czy blok "dotkął podłogi/ bloku" pod sobą. Jeśli tak to zwraca False, w przeciwnym wypadku True.
     check = True
     for i in range(4):
-        if tab[i].y + 1 > 19:
+        if tab[i].y + 1 > M-1:
             check = False
         elif blocksTab[tab[i].y+1][tab[i].x].empty:
             check = False
     return check
 
-def checkSites():
+def checkSites(): # Funkcja sprawdza czy możliwe jest przemieszczenie w poziomie. Jeśli tak zwraca True, w przeciwnym wypadku False.
     check = True
     for i in range(4):
         x_min = tab[i].x - 1
@@ -94,13 +99,13 @@ def checkSites():
                 check = False
     return check
 
-def delete_line():
+def delete_line(): # Funkcja usuwa wiersze w pełni zapełnione
     for y in range(M):
         counter = 0
         for x in range(N):
             if blocksTab[y][x].empty:
                 counter += 1
-        if counter == 10:
+        if counter == N:
             for line in range(y-1, -1, -1):
                 for x in range(0, N):
                     blocksTab[line + 1][x].empty = blocksTab[line][x].empty
@@ -110,17 +115,18 @@ def delete_line():
 M = 20
 N = 10
 block_size = 30
-display_width = 500
+display_width = 650
 display_height = 700
 board_width = N * block_size
 board_height = M * block_size
-pos_x = 100
+pos_x = 50
 pos_y = 50
 
 black = (0, 0, 0)
 white = (255, 255, 255)
 red = (255, 0, 0)
 
+# Obrazy i zdjęcia
 bc_yellow = pygame.transform.scale(pygame.image.load('yellow.bmp'), (block_size, block_size))
 bc_blue = pygame.transform.scale(pygame.image.load('blue.bmp'), (block_size, block_size))
 bc_azure = pygame.transform.scale(pygame.image.load('azure.bmp'), (block_size, block_size))
@@ -128,7 +134,8 @@ bc_green = pygame.transform.scale(pygame.image.load('green.bmp'), (block_size, b
 bc_red = pygame.transform.scale(pygame.image.load('red.bmp'), (block_size, block_size))
 bc_violet = pygame.transform.scale(pygame.image.load('violet.bmp'), (block_size, block_size))
 bc_orange = pygame.transform.scale(pygame.image.load('orange.bmp'), (block_size, block_size))
-grid = pygame.image.load('siatka.bmp')
+grid = pygame.image.load('grid.bmp')
+panel = pygame.image.load('panel.bmp')
 
 blockColors = [bc_yellow, bc_blue, bc_azure, bc_green, bc_red, bc_violet, bc_orange]
 
@@ -139,6 +146,7 @@ tab = figure()
 # Initialization
 gameDisplay = pygame.display.set_mode((display_width, display_height), pygame.SRCALPHA)
 pygame.display.set_caption('Tetris')
+pygame.display.set_icon(bc_yellow)
 clock = pygame.time.Clock()
 fps = 8
 tick = 0
@@ -176,6 +184,7 @@ while True:
 
     gameDisplay.fill((0,20,40))
     pygame.Surface.blit(gameDisplay, grid, (pos_x, pos_y))
+    pygame.Surface.blit(gameDisplay, panel, (pos_x*2 + board_width, pos_y))
     print_block(color,tab)
     for i in range(4):
         print(tab[i].x, tab[i].y)
@@ -183,11 +192,8 @@ while True:
         for i in range(4):
             blocksTab[tab[i].y][tab[i].x].empty = True
             blocksTab[tab[i].y][tab[i].x].color = color
-        tab = figure(random.randint(0, len(figures) - 1))
-        tmp_col = random.randint(0, len(blockColors) - 1)
-        while (tmp_col == color):
-            tmp_col = random.randint(0, len(blockColors) - 1)
-        color = tmp_col
+        tab = figure()
+        color = color_gen(color)
     delete_line()
     print_all()
     pygame.display.update()
