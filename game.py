@@ -30,11 +30,11 @@ def print_all():
     for y in range(M):
         for x in range(N):
             if blocksTab[y][x].empty is True:
-                pygame.Surface.blit(gameDisplay, blockColors[blocksTab[y][x].color], (pos_x + x * block_size, y * block_size))
+                pygame.Surface.blit(gameDisplay, blockColors[blocksTab[y][x].color], (pos_x + x * block_size, pos_y + y * block_size))
 
 def print_block(color, tab):
     for i in range(4):
-        pygame.Surface.blit(gameDisplay, blockColors[color], (pos_x + tab[i].x * block_size, tab[i].y * block_size))
+        pygame.Surface.blit(gameDisplay, blockColors[color], (pos_x + tab[i].x * block_size, pos_y + tab[i].y * block_size))
 
 def rotate(isEnd):
         if isEnd:
@@ -115,6 +115,7 @@ display_height = 700
 board_width = N * block_size
 board_height = M * block_size
 pos_x = 100
+pos_y = 50
 
 black = (0, 0, 0)
 white = (255, 255, 255)
@@ -127,6 +128,7 @@ bc_green = pygame.transform.scale(pygame.image.load('green.bmp'), (block_size, b
 bc_red = pygame.transform.scale(pygame.image.load('red.bmp'), (block_size, block_size))
 bc_violet = pygame.transform.scale(pygame.image.load('violet.bmp'), (block_size, block_size))
 bc_orange = pygame.transform.scale(pygame.image.load('orange.bmp'), (block_size, block_size))
+grid = pygame.image.load('siatka.bmp')
 
 blockColors = [bc_yellow, bc_blue, bc_azure, bc_green, bc_red, bc_violet, bc_orange]
 
@@ -173,6 +175,7 @@ while True:
     isEnd = check_height()
 
     gameDisplay.fill((0,20,40))
+    pygame.Surface.blit(gameDisplay, grid, (pos_x, pos_y))
     print_block(color,tab)
     for i in range(4):
         print(tab[i].x, tab[i].y)
