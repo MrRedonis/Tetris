@@ -13,21 +13,17 @@ class Pole:
         self.empty = empty
         self.color = color
 
-def blockRainfall():
-    while True:
-        tab = figure(random.randint(0, len(figures) - 1))
-        printBlock(random.randint(0, len(blockColors) - 1))
 
 def figure(n):
         tab = [Point() for i in range(4)]
         for i in range(4):
-            tab[i].x = figures[n][i] % 2
+            tab[i].x = figures[n][i] % 2 + 5
             tab[i].y = figures[n][i] // 2
         return tab
 
 def printAll():
-    for x in range(M):
-        for y in range(N):
+    for y in range(M):
+        for x in range(N):
             if blocksTab[y][x].empty == True:
                 pygame.Surface.blit(gameDisplay, blockColors[blocksTab[y][x].color], (x * block_size, y * block_size))
 
@@ -60,13 +56,13 @@ def move(xmv, ymv, isEnd):
         check_x = True
         check_y = True
         for i in range(4):
-            if tab[i].x + xmv < 0 or tab[i].x + xmv > 10:
+            if tab[i].x + xmv < 0 or tab[i].x + xmv > 9:
                 check_x = False
-            if tab[i].y + ymv > 20:
+            if tab[i].y + ymv > 19:
                 check_y = False
         if check_x or check_y:
             for i in range(4):
-                if check_x:
+                if check_x and checkSites():
                     tab[i].x += xmv
                 if check_y:
                     tab[i].y += ymv
@@ -74,9 +70,36 @@ def move(xmv, ymv, isEnd):
 def checkHeight():
     check = True
     for i in range(4):
-        if tab[i].y + 1 > 20:
+        if tab[i].y + 1 > 19:
+            check = False
+        elif blocksTab[tab[i].y+1][tab[i].x].empty:
             check = False
     return check
+
+def checkSites():
+    check = True
+    for i in range(4):
+        x_min = tab[i].x - 1
+        x_max = tab[i].x + 1
+        if x_min >= 0:
+            if blocksTab[tab[i].y][tab[i].x - 1].empty:
+                check = False
+        if x_max < N:
+            if blocksTab[tab[i].y][tab[i].x + 1].empty:
+                check = False
+    return check
+
+def deleteLine():
+    for y in range(M):
+        counter = 0
+        for x in range(N):
+            if blocksTab[y][x].empty:
+                counter += 1
+        if counter == 10:
+            for line in range(y-1,-1,-1):
+                for x in range(0,N):
+                    blocksTab[line + 1][x].empty = blocksTab[line][x].empty
+                    blocksTab[line + 1][x].color = blocksTab[line][x].color
 
 # Config
 block_size = 30
@@ -101,7 +124,7 @@ bc_orange = pygame.transform.scale(pygame.image.load('orange.bmp'), (block_size,
 
 blockColors = [bc_yellow, bc_blue, bc_azure, bc_green, bc_red, bc_violet, bc_orange]
 
-blocksTab = [[Pole(0,False) for col in range(N+1)] for row in range(M+1)]
+blocksTab = [[Pole(0,False) for col in range(N)] for row in range(M)]
 figures = [[1, 3, 5, 7], [2, 4, 5, 7], [3, 5, 4, 6], [3, 5, 4, 7], [2, 3, 5, 7], [3, 2, 4, 6], [2, 3, 4, 5]]
 tab = figure(5)
 pos_x = (display_width - block_size) / 2
@@ -114,7 +137,7 @@ max_y = board_height
 gameDisplay = pygame.display.set_mode((display_width, display_height), pygame.SRCALPHA)
 pygame.display.set_caption('Tetris')
 clock = pygame.time.Clock()
-fps = 5
+fps = 8
 tick = 0
 isEnd = True
 color = 1
@@ -132,15 +155,17 @@ while True:
 
     clock.tick(fps)
     xmv = 0
+    ymv = 0
+    speed = fps // 2
     if pygame.key.get_pressed()[pygame.K_RIGHT]:
-        if True:
             xmv = 1
     if pygame.key.get_pressed()[pygame.K_LEFT]:
-        if True:
             xmv = -1
+    if pygame.key.get_pressed()[pygame.K_DOWN]:
+            speed  -= 3
+
     tick += 1
-    ymv = 0
-    if tick % (fps // 2) == 0: ymv = 1
+    if tick % (speed) == 0: ymv = 1
     if xmv != 0 or ymv != 0:  move(xmv, ymv, isEnd)
     isEnd = checkHeight()
 
@@ -153,7 +178,11 @@ while True:
             blocksTab[tab[i].y][tab[i].x].empty = True
             blocksTab[tab[i].y][tab[i].x].color = color
         tab = figure(random.randint(0, len(figures) - 1))
-        color = random.randint(0, len(blockColors) - 1)
+        tmp_col = random.randint(0, len(blockColors) - 1)
+        while (tmp_col == color):
+            tmp_col = random.randint(0, len(blockColors) - 1)
+        color = tmp_col
+    deleteLine()
     printAll()
     pygame.display.update()
     clock.tick(60)
