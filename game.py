@@ -111,15 +111,22 @@ def delete_line(): # Funkcja usuwa wiersze w pełni zapełnione
                     blocksTab[line + 1][x].empty = blocksTab[line][x].empty
                     blocksTab[line + 1][x].color = blocksTab[line][x].color
 
+def view_background():
+    gameDisplay.fill((251, 101, 190))
+    pygame.draw.rect(gameDisplay, (98, 98, 98), (pos_x - 5, pos_y - 5, board_width + 10, board_height + 10))
+    pygame.draw.rect(gameDisplay, black, (pos_x, pos_y, board_width, board_height))
+    pygame.Surface.blit(gameDisplay, grid, (pos_x, pos_y))
+
+
 # Config
 M = 20
 N = 10
 block_size = 30
-display_width = 650
+display_width = 900
 display_height = 700
 board_width = N * block_size
 board_height = M * block_size
-pos_x = 50
+pos_x = (display_width - board_width) // 2
 pos_y = 50
 
 black = (0, 0, 0)
@@ -182,10 +189,9 @@ while True:
         move(xmv, ymv, isEnd)
     isEnd = check_height()
 
-    gameDisplay.fill((0,20,40))
-    pygame.Surface.blit(gameDisplay, grid, (pos_x, pos_y))
-    pygame.Surface.blit(gameDisplay, panel, (pos_x*2 + board_width, pos_y))
+    view_background()
     print_block(color)
+
     if not isEnd:
         for i in range(4):
             blocksTab[tab[i].y][tab[i].x].empty = True
