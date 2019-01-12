@@ -10,7 +10,6 @@ class Point: # Struktrua do tab[]
         self.x = x
         self.y = y
 
-
 class Pole: # Struktura do blocksTab
     def __init__(self, color, empty):
         self.empty = empty
