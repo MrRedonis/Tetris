@@ -171,11 +171,13 @@ class Game:
         self.blocksTab = [[Pole(0, False) for col in range(N)] for row in range(M)]
         self.figures = [[1, 3, 5, 7], [2, 4, 5, 7], [3, 5, 4, 6], [3, 5, 4, 7], [2, 3, 5, 7], [3, 2, 4, 6], [2, 3, 4, 5]]
         self.tab = self.figure()
+        self.tab_next = self.figure()
+        self.color = self.color_gen()
+        self.color_next = self.color_gen(self.color)
         self.clock = pygame.time.Clock()
         self.fps = 10
         self.tick = 0
         self.isEnd = True
-        self.color = 1
         self.points = 0
         self.paused = False
         self.stop = False
@@ -211,18 +213,21 @@ class Game:
                 if pygame.key.get_pressed()[pygame.K_DOWN]:
                     self.points += 1
             if xmv != 0 or ymv != 0:
-                self.move(xmv, ymv, self.isEnd)
+                self.move(xmv, ymv)
             self.isEnd = self.check_height()
 
             self.view_background()
-            self.print_block(self.color)
+            self.print_block(self.color, self.tab, pos_x, pos_y)
 
             if not self.isEnd:
                 for i in range(4):
                     self.blocksTab[self.tab[i].y][self.tab[i].x].empty = True
                     self.blocksTab[self.tab[i].y][self.tab[i].x].color = self.color
-                self.tab = self.figure()
-                self.color = self.color_gen(self.color)
+
+                self.tab = self.tab_next
+                self.tab_next = self.figure()
+                self.color = self.color_next
+                self.color_next = self.color_gen(self.color)
 
             self.delete_line()
             self.print_all()
@@ -236,7 +241,7 @@ class Game:
         pygame.quit()
         quit()
 
-    def color_gen(self, last):  # Generator liczb odpowiadajacych kolorom z pominieciem ostatniego.
+    def color_gen(self, last=-1):  # Generator liczb odpowiadajacych kolorom z pominieciem ostatniego.
         col = random.randint(0, len(self.blockColors) - 1)
         while last == col:
             col = random.randint(0, len(self.blockColors) - 1)
@@ -260,10 +265,10 @@ class Game:
                     pygame.Surface.blit(gameDisplay, self.blockColors[self.blocksTab[y][x].color],
                                         (pos_x + x * block_size, pos_y + y * block_size))
 
-    def print_block(self, color):  # Funkcja rysuje całą figurę wg wzoru w tab[].
+    def print_block(self, color, tab, x, y):  # Funkcja rysuje całą figurę wg wzoru w tab[].
         for i in range(4):
             pygame.Surface.blit(gameDisplay, self.blockColors[color],
-                                (pos_x + self.tab[i].x * block_size, pos_y + self.tab[i].y * block_size))
+                                (x + tab[i].x * block_size, y + tab[i].y * block_size))
 
     def rotate(self, isEnd, tab):  # Funkcja obraca blok jeśli isEnd == True.
         if isEnd:
@@ -290,8 +295,8 @@ class Game:
                     rotate_sound.play()
         return tab
 
-    def move(self, xmv, ymv, is_end):  # Funkcja sprawdza czy porusza się w siatce gry i porusza blokiem.
-        if is_end:
+    def move(self, xmv, ymv):  # Funkcja sprawdza czy porusza się w siatce gry i porusza blokiem.
+        if True:
             check_x = True
             check_y = True
             for i in range(4):
@@ -303,7 +308,6 @@ class Game:
             if check_x or check_y:
                 for i in range(4):
                     if check_x and check:
-                        move_sound.play()
                         self.tab[i].x += xmv
                     if check_y:
                         self.tab[i].y += ymv
@@ -343,7 +347,13 @@ class Game:
 
     def view_background(self):
         gameDisplay.blit(background, (0, 0))
+
+        size = self.check_block_size(self.tab_next)
+
         self.print_panel((pos_x-200) // 2, pos_y + 66)
+        text = font.render('Next block', True, white)
+        gameDisplay.blit(text, (50 + (200 - text.get_width()) // 2, 130))
+        self.print_block(self.color_next, self.tab_next, 35 - size[0]*30 + (200 - (size[1]-size[0])*30) // 2, 160 - size[2]*30 + (100 - (size[3]-size[2])*30) // 2)
         self.print_panel((pos_x-200) // 2, pos_y + 332)
         self.print_score()
         gameDisplay.blit(play_panel, (pos_x - 25, pos_y - 25))
@@ -442,6 +452,21 @@ class Game:
         text = font.render(str(self.points), True, white)
         x = ((pos_x - 200) // 2) + (200 - text.get_width()) // 2
         gameDisplay.blit(text, (x, pos_y + 380))
+
+    def check_block_size(self, tab):
+        x_min =tab[0].x
+        x_max = tab[0].x
+        y_min = tab[0].y
+        y_max = tab[0].y
+        print(tab[0].x,tab[0].y)
+        for i in range(1,4):
+            if tab[i].x > x_max: x_max = tab[i].x
+            if tab[i].x < x_min: x_min = tab[i].x
+            if tab[i].y > y_max: y_max = tab[i].y
+            if tab[i].y < y_min: y_min = tab[i].y
+            print(tab[i].x, tab[i].y)
+        print("###")
+        return x_min, x_max, y_min, y_max
 
 
 # Config

@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6f8b5f17-b26c-4f97-a2f4-4d43bbef0463" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/stop.bmp" afterPath="$PROJECT_DIR$/stop.bmp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/menu.py" afterPath="$PROJECT_DIR$/menu.py" />
     </list>
@@ -20,8 +18,8 @@
       <file leaf-file-name="menu.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/menu.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="292" column="12" lean-forward="false" selection-start-line="292" selection-start-column="8" selection-end-line="292" selection-end-column="12" />
+            <state relative-caret-position="247">
+              <caret line="355" column="59" lean-forward="false" selection-start-line="355" selection-start-column="59" selection-end-line="355" selection-end-column="59" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -53,10 +51,8 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>checkSites</find>
-      <find>isEnd</find>
       <find>check_h</find>
       <find>check_s</find>
-      <find>print_blo</find>
       <find>bac</find>
       <find>pause</find>
       <find>pause_button</find>
@@ -73,6 +69,14 @@
       <find>reset</find>
       <find>button_s</find>
       <find>reset_button</find>
+      <find>self.move</find>
+      <find>color</find>
+      <find>print_block</find>
+      <find>isEnd</find>
+      <find>check</find>
+      <find>check_he</find>
+      <find>print_blo</find>
+      <find>print_sco</find>
       <find>move</find>
     </findStrings>
   </component>
@@ -293,7 +297,14 @@
       <option name="project" value="LOCAL" />
       <updated>1547389537980</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Trochę dźwięków.">
+      <created>1547394388676</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1547394388676</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -336,7 +347,8 @@
     <MESSAGE value="Dodanie zliczania punktów i początki tablicy wyników." />
     <MESSAGE value="Zapisywanie punktów do highscores przy wyjściu przez przycisk Stop." />
     <MESSAGE value="Score board." />
-    <option name="LAST_COMMIT_MESSAGE" value="Score board." />
+    <MESSAGE value="Trochę dźwięków." />
+    <option name="LAST_COMMIT_MESSAGE" value="Trochę dźwięków." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -452,8 +464,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/menu.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="292" column="12" lean-forward="false" selection-start-line="292" selection-start-column="8" selection-end-line="292" selection-end-column="12" />
+        <state relative-caret-position="247">
+          <caret line="355" column="59" lean-forward="false" selection-start-line="355" selection-start-column="59" selection-end-line="355" selection-end-column="59" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
