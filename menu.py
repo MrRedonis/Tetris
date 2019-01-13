@@ -81,19 +81,27 @@ class Menu:
 
     def high_scores_menu(self):
         self.background()
-        self.return_button()
+        self.return_button(pos_x, pos_y)
+        self.reset_button(pos_x, pos_y + 400)
+        max = len(high_scores)
+        for i in range(1,11):
+            if i < max + 1:
+                text = menu_font.render(str(i)+".  "+str(high_scores[i-1]), True, white)
+            else:
+                text = menu_font.render(str(i) + ".  ", True, white)
+            gameDisplay.blit(text, (pos_x + 20, pos_y + 100 + 30 * i))
         pygame.display.update()
 
     def options_menu(self):
         self.background()
-        self.return_button()
+        self.return_button(pos_x, pos_y)
         pygame.display.update()
 
     def about(self):
         x_pos = pos_x + 50
         y_pos = pos_y + 50
         self.background()
-        self.return_button()
+        self.return_button(pos_x, pos_y)
         length = 0
         height = 0
         to_print = about_text.split(" ")
@@ -117,16 +125,31 @@ class Menu:
         text = font.render('Tetris', True, white)
         gameDisplay.blit(text, (pos_x + (board_width - text.get_width()) // 2, pos_y + 30))
 
-    def return_button(self):
-        x_pos = pos_x + 50
-        y_pos = pos_y + 50
+    def return_button(self, x, y):
+        x_pos = x + 50
+        y_pos = y + 50
         if self.mouse_contained(x_pos, y_pos, x_pos + menu_button_w, y_pos + menu_button_h):
             gameDisplay.blit(button_1, (x_pos, y_pos))
             if pygame.mouse.get_pressed() == (1, 0, 0):
                 self.open_function = 0
         else:
             gameDisplay.blit(button_2, (x_pos, y_pos))
-        text = font.render('Return', True, white)
+        text = font.render("Return", True, white)
+        gameDisplay.blit(text, (x_pos + (menu_button_w - text.get_width()) // 2, y_pos))
+
+    def reset_button(self, x, y):
+        x_pos = x + 50
+        y_pos = y + 50
+        if self.mouse_contained(x_pos, y_pos, x_pos + menu_button_w, y_pos + menu_button_h):
+            gameDisplay.blit(button_1, (x_pos, y_pos))
+            if pygame.mouse.get_pressed() == (1, 0, 0):
+                plik = open("wyniki.txt", "w")
+                plik.write("")
+                plik.close()
+                high_scores.clear()
+        else:
+            gameDisplay.blit(button_2, (x_pos, y_pos))
+        text = font.render("Reset", True, white)
         gameDisplay.blit(text, (x_pos + (menu_button_w - text.get_width()) // 2, y_pos))
 
 
@@ -225,7 +248,7 @@ class Game:
         tab = self.rotate(True, tab)
         return tab
 
-    def print_all(self):  # Funkja rysuje już postawione bloki, które są zapisane w blockColors.
+    def print_all(self):  # Funkcja rysuje już postawione bloki, które są zapisane w blockColors.
         for y in range(M):
             for x in range(N):
                 if self.blocksTab[y][x].empty is True:
@@ -347,6 +370,11 @@ class Game:
         pygame.display.update()
         high_scores.append(self.points)
         InsertionSort(high_scores)
+        text = open("wyniki.txt", "w")
+        for x in range(len(high_scores) - 1):
+            text.write(str(high_scores[x])+",")
+        text.write(str(high_scores[len(high_scores) - 1]))
+        text.close()
         print(high_scores)
         pygame.time.wait(2000)
 
@@ -430,6 +458,13 @@ menu_texts = ["Play", "High Scores", "Options", "About", "Quit"]
 about_text = "Game crated by Damian Jurkiewicz (MrRedonis). Main menu background graphic created by Freepic."
 
 high_scores = []
+text = open("wyniki.txt", "r")
+readings = (text.readline())
+text.close()
+if not readings == "":
+    words = readings.split(",")
+    for x in range(len(words)):
+        high_scores.append(int(words[x]))
 
 # Obrazy i zdjęcia
 bc_yellow = pygame.transform.scale(pygame.image.load('yellow.bmp'), (block_size, block_size))
