@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6f8b5f17-b26c-4f97-a2f4-4d43bbef0463" name="Default" comment="Zapisywanie punktów do highscores przy wyjściu przez przycisk Stop.">
+    <list default="true" id="6f8b5f17-b26c-4f97-a2f4-4d43bbef0463" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/stop.bmp" afterPath="$PROJECT_DIR$/stop.bmp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/menu.py" afterPath="$PROJECT_DIR$/menu.py" />
     </list>
+    <ignored path="wyniki.txt" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,8 +20,8 @@
       <file leaf-file-name="menu.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/menu.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="254" column="64" lean-forward="false" selection-start-line="254" selection-start-column="64" selection-end-line="254" selection-end-column="64" />
+            <state relative-caret-position="170">
+              <caret line="292" column="12" lean-forward="false" selection-start-line="292" selection-start-column="8" selection-end-line="292" selection-end-column="12" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -68,6 +71,9 @@
       <find>back</find>
       <find>return_butto</find>
       <find>reset</find>
+      <find>button_s</find>
+      <find>reset_button</find>
+      <find>move</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -280,7 +286,14 @@
       <option name="project" value="LOCAL" />
       <updated>1547341904369</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Score board.">
+      <created>1547389537980</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1547389537980</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -322,7 +335,8 @@
     <MESSAGE value="Dodanie tła do każdego submenu. Dodanie przycisków stop oraz play/pause." />
     <MESSAGE value="Dodanie zliczania punktów i początki tablicy wyników." />
     <MESSAGE value="Zapisywanie punktów do highscores przy wyjściu przez przycisk Stop." />
-    <option name="LAST_COMMIT_MESSAGE" value="Zapisywanie punktów do highscores przy wyjściu przez przycisk Stop." />
+    <MESSAGE value="Score board." />
+    <option name="LAST_COMMIT_MESSAGE" value="Score board." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -438,8 +452,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/menu.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="254" column="64" lean-forward="false" selection-start-line="254" selection-start-column="64" selection-end-line="254" selection-end-column="64" />
+        <state relative-caret-position="170">
+          <caret line="292" column="12" lean-forward="false" selection-start-line="292" selection-start-column="8" selection-end-line="292" selection-end-column="12" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>

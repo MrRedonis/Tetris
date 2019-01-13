@@ -36,6 +36,7 @@ class Menu:
             if self.mouse_contained(x_pos, y_pos, x_pos + menu_button_w, y_pos + menu_button_h):
                 gameDisplay.blit(button_1, (x_pos, y_pos))
                 if pygame.mouse.get_pressed() == (1,0,0):
+                    button_sound.play()
                     self.open_function = x + 1
             else:
                 gameDisplay.blit(button_2, (x_pos, y_pos))
@@ -131,6 +132,7 @@ class Menu:
         if self.mouse_contained(x_pos, y_pos, x_pos + menu_button_w, y_pos + menu_button_h):
             gameDisplay.blit(button_1, (x_pos, y_pos))
             if pygame.mouse.get_pressed() == (1, 0, 0):
+                button_sound.play()
                 self.open_function = 0
         else:
             gameDisplay.blit(button_2, (x_pos, y_pos))
@@ -143,6 +145,7 @@ class Menu:
         if self.mouse_contained(x_pos, y_pos, x_pos + menu_button_w, y_pos + menu_button_h):
             gameDisplay.blit(button_1, (x_pos, y_pos))
             if pygame.mouse.get_pressed() == (1, 0, 0):
+                button_sound.play()
                 plik = open("wyniki.txt", "w")
                 plik.write("")
                 plik.close()
@@ -176,6 +179,8 @@ class Game:
         self.points = 0
         self.paused = False
         self.stop = False
+
+        start_game.play()
 
         while True:
             for event in pygame.event.get():
@@ -263,6 +268,7 @@ class Game:
     def rotate(self, isEnd, tab):  # Funkcja obraca blok jeśli isEnd == True.
         if isEnd:
             if tab[0].name == 6:
+                rotate_sound.play()
                 return tab
             point = Point(tab[1].x, tab[1].y)
             tmp = [Point() for i in range(4)]
@@ -281,6 +287,7 @@ class Game:
                 for i in range(4):
                     tab[i].x = tmp[i].x
                     tab[i].y = tmp[i].y
+                    rotate_sound.play()
         return tab
 
     def move(self, xmv, ymv, is_end):  # Funkcja sprawdza czy porusza się w siatce gry i porusza blokiem.
@@ -296,6 +303,7 @@ class Game:
             if check_x or check_y:
                 for i in range(4):
                     if check_x and check:
+                        move_sound.play()
                         self.tab[i].x += xmv
                     if check_y:
                         self.tab[i].y += ymv
@@ -384,6 +392,7 @@ class Game:
             gameDisplay.blit(button_inside2, (x + 3, y + 3))
             gameDisplay.blit(pause, (x, y))
             if pygame.mouse.get_pressed() == (1, 0, 0):
+                button_sound.play()
                 pygame.image.save(gameDisplay, 'surface.bmp')
                 if self.paused is False:
                     self.paused = True
@@ -400,6 +409,7 @@ class Game:
             gameDisplay.blit(button_inside2, (x + 3, y + 3))
             gameDisplay.blit(stop, (x, y))
             if pygame.mouse.get_pressed() == (1, 0, 0):
+                button_sound.play()
                 self.paused = False
                 self.gameover()
                 self.stop = True
@@ -487,6 +497,12 @@ stop = pygame.transform.scale(pygame.image.load('stop.bmp'), (50, 50))
 gameDisplay = pygame.display.set_mode((display_width, display_height), pygame.SRCALPHA)
 pygame.display.set_caption('Tetris')
 pygame.display.set_icon(bc_yellow)
+
+# Music
+start_game = pygame.mixer.Sound('start_game.ogg')
+rotate_sound = pygame.mixer.Sound('rotate.ogg')
+button_sound = pygame.mixer.Sound('button.ogg')
+move_sound = pygame.mixer.Sound('move.ogg')
 
 if __name__ == "__main__":
     Menu()
