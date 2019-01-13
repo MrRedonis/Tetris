@@ -178,7 +178,7 @@ class Game:
                 speed -= self.fps + 1
 
             self.tick += 1
-            if self.tick % (speed) == 0:
+            if self.tick % speed == 0:
                 ymv = 1
                 if pygame.key.get_pressed()[pygame.K_DOWN]:
                     self.points += 1
@@ -260,8 +260,8 @@ class Game:
                     tab[i].y = tmp[i].y
         return tab
 
-    def move(self, xmv, ymv, isEnd):  # Funkcja sprawdza czy porusza się w siatce gry i porusza blokiem.
-        if isEnd:
+    def move(self, xmv, ymv, is_end):  # Funkcja sprawdza czy porusza się w siatce gry i porusza blokiem.
+        if is_end:
             check_x = True
             check_y = True
             for i in range(4):
@@ -326,7 +326,7 @@ class Game:
 
     def can_rotate(self):
         for i in range(4):
-            if self.tab[i].x >= 2 and self.tab[i].x <= 17:
+            if 2 <= self.tab[i].x <= 17:
                 return True
             elif self.tab[i].x == 1:
                 pass
@@ -334,18 +334,21 @@ class Game:
     def check_gameover(self):
         for x in range(N):
             if self.blocksTab[0][x].empty is True:
-                pygame.image.save(gameDisplay, 'surface.bmp')
-                gameDisplay.blit(pygame.image.load('surface.bmp'), (0, 0))
-                font = pygame.font.SysFont("comicsansms", 60)
-                text = font.render('Game over', True, white)
-                gameDisplay.blit(text, (pos_x + (board_width - text.get_width()) // 2, 300))
-                pygame.display.update()
-                high_scores.append(self.points)
-                InsertionSort(high_scores)
-                print(high_scores)
-                pygame.time.wait(2000)
+                self.gameover()
                 return True
         return False
+
+    def gameover(self):
+        pygame.image.save(gameDisplay, 'surface.bmp')
+        gameDisplay.blit(pygame.image.load('surface.bmp'), (0, 0))
+        font = pygame.font.SysFont("comicsansms", 60)
+        text = font.render('Game over', True, white)
+        gameDisplay.blit(text, (pos_x + (board_width - text.get_width()) // 2, 300))
+        pygame.display.update()
+        high_scores.append(self.points)
+        InsertionSort(high_scores)
+        print(high_scores)
+        pygame.time.wait(2000)
 
     def pause_button(self, x=800, y=600):
         gameDisplay.blit(button_background, (x, y))
@@ -370,6 +373,7 @@ class Game:
             gameDisplay.blit(stop, (x, y))
             if pygame.mouse.get_pressed() == (1, 0, 0):
                 self.paused = False
+                self.gameover()
                 self.stop = True
         else:
             gameDisplay.blit(button_inside1, (x + 3, y + 3))
