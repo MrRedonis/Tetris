@@ -14,6 +14,15 @@ class Pole: # Struktura do blocksTab
         self.empty = empty
         self.color = color
 
+def InsertionSort(tab):
+    for x in range(1,len(tab)):
+        key=tab[x]
+        y=x-1
+        while(y>=0 and tab[y]<key):
+            tab[y+1]=tab[y]
+            y=y-1
+        tab[y+1]=key
+
 class Menu:
     def __init__(self):
         self.open_function = 0
@@ -74,13 +83,11 @@ class Menu:
         self.background()
         self.return_button()
         pygame.display.update()
-        pass
 
     def options_menu(self):
         self.background()
         self.return_button()
         pygame.display.update()
-        pass
 
     def about(self):
         x_pos = pos_x + 50
@@ -192,17 +199,12 @@ class Game:
             self.delete_line()
             self.print_all()
             if self.check_gameover():
-                pygame.image.save(gameDisplay, 'surface.bmp')
-                gameDisplay.blit(pygame.image.load('surface.bmp'), (0, 0))
-                pygame.display.update()
-                pygame.time.wait(2000)
                 return
             self.pause_button(800, 600)
             self.stop_button(720, 600)
             if self.stop is True: return
             pygame.display.update()
             self.clock.tick(60)
-            print(self.points)
         pygame.quit()
         quit()
 
@@ -312,6 +314,7 @@ class Game:
         gameDisplay.blit(background, (0, 0))
         self.print_panel((pos_x-200) // 2, pos_y + 66)
         self.print_panel((pos_x-200) // 2, pos_y + 332)
+        self.print_score()
         gameDisplay.blit(play_panel, (pos_x - 25, pos_y - 25))
         pygame.draw.rect(gameDisplay, (98, 98, 98), (pos_x - 5, pos_y - 5, board_width + 10, board_height + 10))
         pygame.draw.rect(gameDisplay, (45, 53, 73), (pos_x, pos_y, board_width, board_height))
@@ -331,6 +334,16 @@ class Game:
     def check_gameover(self):
         for x in range(N):
             if self.blocksTab[0][x].empty is True:
+                pygame.image.save(gameDisplay, 'surface.bmp')
+                gameDisplay.blit(pygame.image.load('surface.bmp'), (0, 0))
+                font = pygame.font.SysFont("comicsansms", 60)
+                text = font.render('Game over', True, white)
+                gameDisplay.blit(text, (pos_x + (board_width - text.get_width()) // 2, 300))
+                pygame.display.update()
+                high_scores.append(self.points)
+                InsertionSort(high_scores)
+                print(high_scores)
+                pygame.time.wait(2000)
                 return True
         return False
 
@@ -380,7 +393,13 @@ class Game:
             self.stop_button(720, 600)
             pygame.display.update()
 
-
+    def print_score(self):
+        text = font.render('Score', True, white)
+        x = ((pos_x - 200) // 2) + (200 - text.get_width()) // 2
+        gameDisplay.blit(text, (x, pos_y + 340))
+        text = font.render(str(self.points), True, white)
+        x = ((pos_x - 200) // 2) + (200 - text.get_width()) // 2
+        gameDisplay.blit(text, (x, pos_y + 380))
 
 
 # Config
@@ -405,6 +424,8 @@ font = pygame.font.SysFont("comicsansms", 30)
 menu_font = pygame.font.SysFont("comicsansms", 20)
 menu_texts = ["Play", "High Scores", "Options", "About", "Quit"]
 about_text = "Game crated by Damian Jurkiewicz (MrRedonis). Main menu background graphic created by Freepic."
+
+high_scores = []
 
 # Obrazy i zdjęcia
 bc_yellow = pygame.transform.scale(pygame.image.load('yellow.bmp'), (block_size, block_size))
