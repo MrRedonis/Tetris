@@ -16,16 +16,18 @@ class Pole: # Struktura do blocksTab
 
 def InsertionSort(tab):
     for x in range(1,len(tab)):
-        key=tab[x]
-        y=x-1
-        while(y>=0 and tab[y]<key):
-            tab[y+1]=tab[y]
-            y=y-1
-        tab[y+1]=key
+        key = tab[x]
+        y = x-1
+        while y >= 0 and tab[y] < key:
+            tab[y+1] = tab[y]
+            y = y-1
+        tab[y+1] = key
 
 class Menu:
     def __init__(self):
         self.open_function = 0
+        self.music = True
+
         self.engine()
 
     def main_menu(self):
@@ -35,8 +37,9 @@ class Menu:
             y_pos = pos_y + 150 + 80 * x
             if self.mouse_contained(x_pos, y_pos, x_pos + menu_button_w, y_pos + menu_button_h):
                 gameDisplay.blit(button_1, (x_pos, y_pos))
-                if pygame.mouse.get_pressed() == (1,0,0):
-                    button_sound.play()
+                if pygame.mouse.get_pressed() == (1, 0, 0):
+                    if self.music and x%5 != 0:
+                        button_sound.play()
                     self.open_function = x + 1
             else:
                 gameDisplay.blit(button_2, (x_pos, y_pos))
@@ -96,7 +99,38 @@ class Menu:
     def options_menu(self):
         self.background()
         self.return_button(pos_x, pos_y)
+        music_text = ['Music ON', 'Music OFF']
+        x_pos = pos_x + 50
+        y_pos = pos_y + 150
+        if self.music:
+            text = font.render('Music OFF', True, white)
+        else:
+            text = font.render('Music ON', True, white)
+        if self.mouse_contained(x_pos, y_pos, x_pos + menu_button_w, y_pos + menu_button_h):
+            gameDisplay.blit(button_1, (x_pos, y_pos))
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if self.music:
+                        button_sound.play()
+                    if self.music:
+                        text = font.render(music_text[0], True, white)
+                        self.music = False
+                    else:
+                        text = font.render(music_text[1], True, white)
+                        self.music = True
+        else:
+            gameDisplay.blit(button_2, (x_pos, y_pos))
+            if self.music:
+                text = font.render(music_text[0], True, white)
+            else:
+                text = font.render(music_text[1], True, white)
+
+        gameDisplay.blit(text, (x_pos + (menu_button_w - text.get_width()) // 2, y_pos))
+
         pygame.display.update()
+        print(self.music)
+
+
 
     def about(self):
         x_pos = pos_x + 50
@@ -132,7 +166,8 @@ class Menu:
         if self.mouse_contained(x_pos, y_pos, x_pos + menu_button_w, y_pos + menu_button_h):
             gameDisplay.blit(button_1, (x_pos, y_pos))
             if pygame.mouse.get_pressed() == (1, 0, 0):
-                button_sound.play()
+                if self.music:
+                    button_sound.play()
                 self.open_function = 0
         else:
             gameDisplay.blit(button_2, (x_pos, y_pos))
@@ -145,7 +180,8 @@ class Menu:
         if self.mouse_contained(x_pos, y_pos, x_pos + menu_button_w, y_pos + menu_button_h):
             gameDisplay.blit(button_1, (x_pos, y_pos))
             if pygame.mouse.get_pressed() == (1, 0, 0):
-                button_sound.play()
+                if self.music:
+                    button_sound.play()
                 plik = open("wyniki.txt", "w")
                 plik.write("")
                 plik.close()
@@ -182,7 +218,8 @@ class Game:
         self.paused = False
         self.stop = False
 
-        start_game.play()
+        if self.Menu.music:
+            start_game.play()
 
         while True:
             for event in pygame.event.get():
@@ -233,13 +270,12 @@ class Game:
             self.print_all()
             if self.check_gameover():
                 return
-            self.pause_button(800, 600)
-            self.stop_button(720, 600)
-            if self.stop is True: return
+            self.pause_button(pause_x, pause_y)
+            self.stop_button(stop_x, stop_y)
+            if self.stop is True:
+                return
             pygame.display.update()
             self.clock.tick(60)
-        pygame.quit()
-        quit()
 
     def color_gen(self, last=-1):  # Generator liczb odpowiadajacych kolorom z pominieciem ostatniego.
         col = random.randint(0, len(self.blockColors) - 1)
@@ -253,9 +289,10 @@ class Game:
         tab = [Point() for i in range(4)]
         for i in range(4):
             tab[i].x = self.figures[n][i] % 2 + 4
-            tab[i].y = self.figures[n][i] // 2 - 1
+            tab[i].y = self.figures[n][i] // 2
         tab[0].name = n
-        tab = self.rotate(True, tab)
+        tab = self.rotate(True, tab, True)
+        self.set_default_position(tab)
         return tab
 
     def print_all(self):  # Funkcja rysuje już postawione bloki, które są zapisane w blockColors.
@@ -270,13 +307,14 @@ class Game:
             pygame.Surface.blit(gameDisplay, self.blockColors[color],
                                 (x + tab[i].x * block_size, y + tab[i].y * block_size))
 
-    def rotate(self, isEnd, tab):  # Funkcja obraca blok jeśli isEnd == True.
-        if isEnd:
+    def rotate(self, is_end, tab, first=False):  # Funkcja obraca blok jeśli isEnd == True.
+        if is_end and self.can_rotate(tab, first):
             if tab[0].name == 6:
-                rotate_sound.play()
+                if self.Menu.music:
+                    rotate_sound.play()
                 return tab
             point = Point(tab[1].x, tab[1].y)
-            tmp = [Point() for i in range(4)]
+            tmp = [Point() for _ in range(4)]
             check_x = True
             check_y = True
             for i in range(4):
@@ -289,10 +327,11 @@ class Game:
                 if tmp[i].y > M - 1:
                     check_y = False
             if check_x and check_y:
+                if self.Menu.music and not first:
+                    rotate_sound.play()
                 for i in range(4):
                     tab[i].x = tmp[i].x
                     tab[i].y = tmp[i].y
-                    rotate_sound.play()
         return tab
 
     def move(self, xmv, ymv):  # Funkcja sprawdza czy porusza się w siatce gry i porusza blokiem.
@@ -304,7 +343,7 @@ class Game:
                     check_x = False
                 if self.tab[i].y + ymv > M - 1:
                     check_y = False
-            check = self.check_sites()
+            check = self.check_sites(xmv)
             if check_x or check_y:
                 for i in range(4):
                     if check_x and check:
@@ -320,7 +359,7 @@ class Game:
                 return False
         return True
 
-    def check_sites(self):  # Funkcja sprawdza czy możliwe jest przemieszczenie w poziomie. Jeśli tak zwraca True, w przeciwnym wypadku False.
+    def check_sites(self, xmv):  # Funkcja sprawdza czy możliwe jest przemieszczenie w poziomie. Jeśli tak zwraca True, w przeciwnym wypadku False.
         for i in range(4):
             x_min = self.tab[i].x - 1
             x_max = self.tab[i].x + 1
@@ -347,15 +386,8 @@ class Game:
 
     def view_background(self):
         gameDisplay.blit(background, (0, 0))
-
-        size = self.check_block_size(self.tab_next)
-
-        self.print_panel((pos_x-200) // 2, pos_y + 66)
-        text = font.render('Next block', True, white)
-        gameDisplay.blit(text, (50 + (200 - text.get_width()) // 2, 130))
-        self.print_block(self.color_next, self.tab_next, 35 - size[0]*30 + (200 - (size[1]-size[0])*30) // 2, 160 - size[2]*30 + (100 - (size[3]-size[2])*30) // 2)
-        self.print_panel((pos_x-200) // 2, pos_y + 332)
-        self.print_score()
+        self.next_block_panel()
+        self.score_panel()
         gameDisplay.blit(play_panel, (pos_x - 25, pos_y - 25))
         pygame.draw.rect(gameDisplay, (98, 98, 98), (pos_x - 5, pos_y - 5, board_width + 10, board_height + 10))
         pygame.draw.rect(gameDisplay, (45, 53, 73), (pos_x, pos_y, board_width, board_height))
@@ -365,12 +397,21 @@ class Game:
         gameDisplay.blit(obszar, (x, y))
         gameDisplay.blit(obszar_light, (x + 10, y + 10))
 
-    def can_rotate(self):
-        for i in range(4):
-            if 2 <= self.tab[i].x <= 17:
-                return True
-            elif self.tab[i].x == 1:
-                pass
+    def can_rotate(self, tab, check):
+        if check:
+            return True
+        elif tab[0].name == {2, 3, 6}:
+            return True
+        else:
+            size = self.check_block_size(tab)
+            if tab[0].name == {1, 4}:
+                if size[2] >= 1:
+                    return True
+                return False
+            else:
+                if size[2] >= 2:
+                    return True
+                return False
 
     def check_gameover(self):
         for x in range(N):
@@ -379,9 +420,16 @@ class Game:
                 return True
         return False
 
-    def gameover(self):
-        pygame.image.save(gameDisplay, 'surface.bmp')
+    def gameover(self, paused=False):
+        if not paused:
+            pygame.image.save(gameDisplay, 'surface.bmp')
         gameDisplay.blit(pygame.image.load('surface.bmp'), (0, 0))
+        gameDisplay.blit(button_background, (pause_x, pause_y))
+        gameDisplay.blit(button_inside1, (pause_x + 3, pause_y + 3))
+        gameDisplay.blit(pause, (pause_x, pause_y))
+        gameDisplay.blit(button_background, (stop_x, stop_y))
+        gameDisplay.blit(button_inside1, (stop_x + 3, stop_y + 3))
+        gameDisplay.blit(stop, (stop_x, stop_y))
         font = pygame.font.SysFont("comicsansms", 60)
         text = font.render('Game over', True, white)
         gameDisplay.blit(text, (pos_x + (board_width - text.get_width()) // 2, 300))
@@ -396,38 +444,46 @@ class Game:
         print(high_scores)
         pygame.time.wait(2000)
 
-    def pause_button(self, x=800, y=600):
+    def pause_button(self, x=690, y=600):
         gameDisplay.blit(button_background, (x, y))
         if Menu.mouse_contained(self.Menu, x, y, x + 50, y + 50):
             gameDisplay.blit(button_inside2, (x + 3, y + 3))
             gameDisplay.blit(pause, (x, y))
-            if pygame.mouse.get_pressed() == (1, 0, 0):
-                button_sound.play()
-                pygame.image.save(gameDisplay, 'surface.bmp')
-                if self.paused is False:
-                    self.paused = True
-                else:
-                    self.paused = False
-                self.game_pause(x, y)
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if self.Menu.music:
+                        button_sound.play()
+                    pygame.image.save(gameDisplay, 'surface.bmp')
+                    if self.paused is False:
+                        self.paused = True
+                    else:
+                        self.paused = False
+                    return self.game_pause(x, y, pygame.image.load('surface.bmp'))
         else:
             gameDisplay.blit(button_inside1, (x + 3, y + 3))
             gameDisplay.blit(pause, (x, y))
 
-    def stop_button(self, x=720, y=600):
+    def stop_button(self, x=780, y=600):
         gameDisplay.blit(button_background, (x, y))
         if Menu.mouse_contained(self.Menu, x, y, x + 50, y + 50):
             gameDisplay.blit(button_inside2, (x + 3, y + 3))
             gameDisplay.blit(stop, (x, y))
             if pygame.mouse.get_pressed() == (1, 0, 0):
-                button_sound.play()
-                self.paused = False
-                self.gameover()
+                if self.Menu.music:
+                    button_sound.play()
+                if self.paused:
+                    self.paused = False
+                    self.gameover(True)
+                else:
+                    self.gameover(False)
+
+                pygame.display.update()
                 self.stop = True
         else:
             gameDisplay.blit(button_inside1, (x + 3, y + 3))
             gameDisplay.blit(stop, (x, y))
 
-    def game_pause(self, x, y):
+    def game_pause(self, x, y, surface):
         while self.paused:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -437,12 +493,12 @@ class Game:
                     if event.key == pygame.K_ESCAPE:
                         pygame.quit()
                         quit()
-            gameDisplay.blit(pygame.image.load('surface.bmp'), (0, 0))
+            gameDisplay.blit(surface, (0, 0))
             font = pygame.font.SysFont("comicsansms", 60)
             text = font.render('Game paused', True, white)
             gameDisplay.blit(text, (pos_x + (board_width - text.get_width()) // 2, 300))
             self.pause_button(x, y)
-            self.stop_button(720, 600)
+            self.stop_button(stop_x, stop_y)
             pygame.display.update()
 
     def print_score(self):
@@ -454,7 +510,7 @@ class Game:
         gameDisplay.blit(text, (x, pos_y + 380))
 
     def check_block_size(self, tab):
-        x_min =tab[0].x
+        x_min = tab[0].x
         x_max = tab[0].x
         y_min = tab[0].y
         y_max = tab[0].y
@@ -468,6 +524,35 @@ class Game:
         print("###")
         return x_min, x_max, y_min, y_max
 
+    def next_block_panel(self):
+        size = self.check_block_size(self.tab_next)
+        self.print_panel((pos_x - 200) // 2, pos_y + 66)
+        text = font.render('Next block', True, white)
+        gameDisplay.blit(text, (50 + (200 - text.get_width()) // 2, 130))
+        self.print_block(self.color_next, self.tab_next, 35 - size[0] * 30 + (200 - (size[1] - size[0]) * 30) // 2,
+                         160 - size[2] * 30 + (100 - (size[3] - size[2]) * 30) // 2)
+
+    def score_panel(self):
+        self.print_panel((pos_x - 200) // 2, pos_y + 332)
+        self.print_score()
+
+    def set_default_position(self, tab):
+        size = self.check_block_size(tab)
+        r_x = size[1] - size[0] + 1 # Długość bloku
+        rx = (N - r_x) // 2 # Gdzie powinien być min x
+
+        for j in range(size[2]):
+            for i in range(4):
+                tab[i].y -= 1
+
+        if rx - size[0] < 0:
+            x = 1
+        else:
+            x = -1
+        size = abs(rx - size[0])
+        for j in range(size):
+            for i in range(4):
+                tab[i].x -= x
 
 # Config
 M = 20
@@ -486,6 +571,11 @@ menu_button_h = 50
 black = (0, 0, 0)
 white = (255, 255, 255)
 red = (255, 0, 0)
+
+stop_x = 780
+stop_y = 600
+pause_x = 690
+pause_y = 600
 
 font = pygame.font.SysFont("comicsansms", 30)
 menu_font = pygame.font.SysFont("comicsansms", 20)
