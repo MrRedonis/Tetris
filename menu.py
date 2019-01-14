@@ -27,7 +27,7 @@ class Menu:
     def __init__(self):
         self.open_function = 0
         self.music = True
-
+        self.max_lvl = 3
         self.engine()
 
     def main_menu(self):
@@ -72,7 +72,8 @@ class Menu:
             if self.open_function == 0:
                 self.main_menu()
             elif self.open_function == 1:
-                Game(self)
+
+                Game(self, self.max_lvl)
                 self.open_function = 0
             elif self.open_function == 2:
                 self.high_scores_menu()
@@ -100,12 +101,13 @@ class Menu:
         self.background()
         self.return_button(pos_x, pos_y)
         music_text = ['Music ON', 'Music OFF']
+        lvl_text = ['Max lvl - 1', 'Max lvl - 2', 'Max lvl - 3', 'Max lvl - 4']
         x_pos = pos_x + 50
         y_pos = pos_y + 150
         if self.music:
-            text = font.render('Music OFF', True, white)
+            text = font.render(music_text[1], True, white)
         else:
-            text = font.render('Music ON', True, white)
+            text = font.render(music_text[0], True, white)
         if self.mouse_contained(x_pos, y_pos, x_pos + menu_button_w, y_pos + menu_button_h):
             gameDisplay.blit(button_1, (x_pos, y_pos))
             for event in pygame.event.get():
@@ -127,8 +129,25 @@ class Menu:
 
         gameDisplay.blit(text, (x_pos + (menu_button_w - text.get_width()) // 2, y_pos))
 
+        x_pos = pos_x + 50
+        y_pos = pos_y + 250
+
+        text2 = font.render(lvl_text[self.max_lvl], True, white)
+
+        if self.mouse_contained(x_pos, y_pos, x_pos + menu_button_w, y_pos + menu_button_h):
+            gameDisplay.blit(button_1, (x_pos, y_pos))
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if self.music:
+                        button_sound.play()
+                    self.max_lvl += 1
+                    self.max_lvl = self.max_lvl % 4
+                    text2 = font.render(lvl_text[self.max_lvl], True, white)
+        else:
+            gameDisplay.blit(button_2, (x_pos, y_pos))
+
+        gameDisplay.blit(text2, (x_pos + (menu_button_w - text2.get_width()) // 2, y_pos))
         pygame.display.update()
-        print(self.music)
 
 
 
@@ -193,8 +212,9 @@ class Menu:
 
 
 class Game:
-    def __init__(self, menu):
+    def __init__(self, menu, max_lvl):
         self.Menu = menu
+        self.max_lvl = max_lvl
         self.bc_blue = pygame.transform.scale(pygame.image.load('blue.bmp'), (block_size, block_size))
         self.bc_azure = pygame.transform.scale(pygame.image.load('azure.bmp'), (block_size, block_size))
         self.bc_green = pygame.transform.scale(pygame.image.load('green.bmp'), (block_size, block_size))
@@ -211,8 +231,8 @@ class Game:
         self.color = self.color_gen()
         self.color_next = self.color_gen(self.color)
         self.clock = pygame.time.Clock()
-        self.move_speed = 14
-        self.fps = 14
+        self.move_speed = 3
+        self.fps = 25
         self.tick = 0
         self.isEnd = True
         self.points = 0
@@ -220,6 +240,8 @@ class Game:
         self.stop = False
         self.level = 1
         self.level_points = 0
+        self.deadline = 0
+        self.speed = 0
 
         if self.Menu.music:
             start_game.play()
@@ -239,28 +261,30 @@ class Game:
             self.clock.tick(self.fps)
             xmv = 0
             ymv = 0
-            speed = self.fps
-            if pygame.key.get_pressed()[pygame.K_RIGHT]:
-                xmv = 1
-            if pygame.key.get_pressed()[pygame.K_LEFT]:
-                xmv = -1
-            if pygame.key.get_pressed()[pygame.K_DOWN]:
-                speed = 1
-
+            self.speed = self.fps + 15 - 7 * self.level
             self.tick += 1
-            if self.tick % speed == 0:
+
+            if self.tick % self.move_speed == 0:
+                if pygame.key.get_pressed()[pygame.K_RIGHT]:
+                    xmv = 1
+                if pygame.key.get_pressed()[pygame.K_LEFT]:
+                    xmv = -1
+
+            if pygame.key.get_pressed()[pygame.K_DOWN]:
+                self.speed = 1
+
+            if self.tick % self.speed == 0:
                 ymv = 1
                 if pygame.key.get_pressed()[pygame.K_DOWN]:
-                    self.points += 1
-                    self.level_points += 1
+                    self.points += self.level
+                    self.level_points += self.level
             if xmv != 0 or ymv != 0:
                 self.move(xmv, ymv)
+
             self.isEnd = self.check_height()
             self.view_background()
             self.print_block(self.color, self.tab, pos_x, pos_y)
-
             self.end_block()
-
             self.delete_line()
             self.print_all()
             if self.check_gameover():
@@ -545,9 +569,10 @@ class Game:
         self.print_panel((pos_x - 200) // 2, pos_y + 332)
         self.print_score()
         self.print_level()
-        if self.level_points >= 1000:
-            self.level_points -= 1000
-            self.level += 1
+        if self.level <= self.max_lvl + 1:
+            if self.level_points >= 1000:
+                self.level_points -= 1000
+                self.level += 1
 
     def set_default_position(self, tab):
         size = self.check_block_size(tab)

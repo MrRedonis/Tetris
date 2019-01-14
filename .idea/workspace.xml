@@ -18,8 +18,8 @@
       <file leaf-file-name="menu.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/menu.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-7932">
-              <caret line="260" column="12" lean-forward="true" selection-start-line="260" selection-start-column="12" selection-end-line="260" selection-end-column="12" />
+            <state relative-caret-position="233">
+              <caret line="414" column="0" lean-forward="true" selection-start-line="414" selection-start-column="0" selection-end-line="414" selection-end-column="0" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -38,15 +38,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>check_block_s</find>
-      <find>play_music</find>
-      <find>view</find>
-      <find>pause_button</find>
-      <find>return</find>
-      <find>return_b</find>
-      <find>options</find>
-      <find>button_sound</find>
-      <find>rotate_sound</find>
       <find>figure</find>
       <find>check_sites</find>
       <find>move</find>
@@ -68,6 +59,15 @@
       <find>isEnd</find>
       <find>self.isEnd =</find>
       <find>self.level_points</find>
+      <find>score_panel</find>
+      <find>options</find>
+      <find>option</find>
+      <find>self.max_lvl</find>
+      <find>music_text</find>
+      <find>point</find>
+      <find>max_lvl</find>
+      <find>score</find>
+      <find>print</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -322,7 +322,14 @@
       <option name="project" value="LOCAL" />
       <updated>1547431984031</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Próba stworzenia &quot;ostatniego ruchu&quot;">
+      <created>1547433921479</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1547433921479</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -370,7 +377,8 @@
     <MESSAGE value="Dodanie do Opcji włączania/wyłączania efektów dźwiękowych w całej grze." />
     <MESSAGE value="Uniemożliwienie zachodzenia na siebie bloków podczas obracania." />
     <MESSAGE value="Skończone obracanie figur." />
-    <option name="LAST_COMMIT_MESSAGE" value="Skończone obracanie figur." />
+    <MESSAGE value="Próba stworzenia &quot;ostatniego ruchu&quot;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Próba stworzenia &quot;ostatniego ruchu&quot;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -494,8 +502,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/menu.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-7932">
-          <caret line="260" column="12" lean-forward="true" selection-start-line="260" selection-start-column="12" selection-end-line="260" selection-end-column="12" />
+        <state relative-caret-position="233">
+          <caret line="414" column="0" lean-forward="true" selection-start-line="414" selection-start-column="0" selection-end-line="414" selection-end-column="0" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
