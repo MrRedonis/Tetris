@@ -253,23 +253,13 @@ class Game:
                 if pygame.key.get_pressed()[pygame.K_DOWN]:
                     self.points += 1
                     self.level_points += 1
-                    print(self.level_points)
             if xmv != 0 or ymv != 0:
                 self.move(xmv, ymv)
             self.isEnd = self.check_height()
-
             self.view_background()
             self.print_block(self.color, self.tab, pos_x, pos_y)
 
-            if not self.isEnd:
-                for i in range(4):
-                    self.blocksTab[self.tab[i].y][self.tab[i].x].empty = True
-                    self.blocksTab[self.tab[i].y][self.tab[i].x].color = self.color
-
-                self.tab = self.tab_next
-                self.tab_next = self.figure()
-                self.color = self.color_next
-                self.color_next = self.color_gen(self.color)
+            self.end_block()
 
             self.delete_line()
             self.print_all()
@@ -585,8 +575,16 @@ class Game:
         x = ((pos_x - 200) // 2) + (200 - text.get_width()) // 2
         gameDisplay.blit(text, (x, pos_y + 460))
 
-    def last_move(self):
-        pass
+    def end_block(self):
+        if not self.isEnd:
+            for i in range(4):
+                self.blocksTab[self.tab[i].y][self.tab[i].x].empty = True
+                self.blocksTab[self.tab[i].y][self.tab[i].x].color = self.color
+
+            self.tab = self.tab_next
+            self.tab_next = self.figure()
+            self.color = self.color_next
+            self.color_next = self.color_gen(self.color)
 
 
 
