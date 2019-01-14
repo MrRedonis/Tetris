@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6f8b5f17-b26c-4f97-a2f4-4d43bbef0463" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/game.py" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/menu.py" afterPath="$PROJECT_DIR$/menu.py" />
     </list>
@@ -18,20 +19,8 @@
       <file leaf-file-name="menu.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/menu.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3384">
-              <caret line="371" column="19" lean-forward="false" selection-start-line="371" selection-start-column="19" selection-end-line="371" selection-end-column="19" />
-              <folding>
-                <element signature="e#0#13#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="game.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/game.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="168">
-              <caret line="9" column="18" lean-forward="false" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
+            <state relative-caret-position="13188">
+              <caret line="628" column="47" lean-forward="true" selection-start-line="628" selection-start-column="47" selection-end-line="628" selection-end-column="47" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -50,9 +39,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>return_but</find>
-      <find>button</find>
-      <find>back</find>
       <find>return_butto</find>
       <find>reset</find>
       <find>button_s</find>
@@ -78,8 +64,11 @@
       <find>button_sound</find>
       <find>rotate_sound</find>
       <find>figure</find>
-      <find>move</find>
       <find>check_sites</find>
+      <find>move</find>
+      <find>can_rota</find>
+      <find>Pole</find>
+      <find>empty</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -313,7 +302,14 @@
       <option name="project" value="LOCAL" />
       <updated>1547402992674</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Dodanie do Opcji włączania/wyłączania efektów dźwiękowych w całej grze.">
+      <created>1547419599845</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1547419599845</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -358,7 +354,8 @@
     <MESSAGE value="Score board." />
     <MESSAGE value="Trochę dźwięków." />
     <MESSAGE value="Skończony panel następnego bloku." />
-    <option name="LAST_COMMIT_MESSAGE" value="Skończony panel następnego bloku." />
+    <MESSAGE value="Dodanie do Opcji włączania/wyłączania efektów dźwiękowych w całej grze." />
+    <option name="LAST_COMMIT_MESSAGE" value="Dodanie do Opcji włączania/wyłączania efektów dźwiękowych w całej grze." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -388,9 +385,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="168">
           <caret line="9" column="18" lean-forward="false" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -408,9 +403,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="168">
           <caret line="9" column="18" lean-forward="true" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -418,9 +411,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3234">
           <caret line="154" column="36" lean-forward="true" selection-start-line="154" selection-start-column="36" selection-end-line="154" selection-end-column="36" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -438,9 +429,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -462,9 +451,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-949">
           <caret line="36" column="70" lean-forward="false" selection-start-line="36" selection-start-column="70" selection-end-line="36" selection-end-column="70" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -484,18 +471,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/game.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
+        <state relative-caret-position="-3692">
           <caret line="9" column="18" lean-forward="false" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/menu.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3384">
-          <caret line="371" column="19" lean-forward="false" selection-start-line="371" selection-start-column="19" selection-end-line="371" selection-end-column="19" />
+        <state relative-caret-position="13188">
+          <caret line="628" column="47" lean-forward="true" selection-start-line="628" selection-start-column="47" selection-end-line="628" selection-end-column="47" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>

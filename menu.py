@@ -343,13 +343,12 @@ class Game:
                     check_x = False
                 if self.tab[i].y + ymv > M - 1:
                     check_y = False
-            check = self.check_sites(xmv)
-            if check_x or check_y:
+            if check_x and self.check_sites(xmv):
                 for i in range(4):
-                    if check_x and check:
-                        self.tab[i].x += xmv
-                    if check_y:
-                        self.tab[i].y += ymv
+                    self.tab[i].x += xmv
+            if check_y:
+                for i in range(4):
+                    self.tab[i].y += ymv
 
     def check_height(self):  # Funkcja sprawdza czy blok "dotkął podłogi/ bloku" pod sobą. Jeśli tak to zwraca False, w przeciwnym wypadku True.
         for i in range(4):
@@ -361,14 +360,11 @@ class Game:
 
     def check_sites(self, xmv):  # Funkcja sprawdza czy możliwe jest przemieszczenie w poziomie. Jeśli tak zwraca True, w przeciwnym wypadku False.
         for i in range(4):
-            x_min = self.tab[i].x - 1
-            x_max = self.tab[i].x + 1
-            if x_min >= 0:
-                if self.blocksTab[self.tab[i].y][self.tab[i].x - 1].empty:
-                    return False
-            if x_max < N:
-                if self.blocksTab[self.tab[i].y][self.tab[i].x + 1].empty:
-                    return False
+            x = self.tab[i].x + xmv
+            if 0 > x or x >= N:
+                return False
+            elif self.blocksTab[self.tab[i].y][x].empty is True:
+                return False
         return True
 
     def delete_line(self):  # Funkcja usuwa wiersze w pełni zapełnione
@@ -397,21 +393,36 @@ class Game:
         gameDisplay.blit(obszar, (x, y))
         gameDisplay.blit(obszar_light, (x + 10, y + 10))
 
-    def can_rotate(self, tab, check):
-        if check:
-            return True
-        elif tab[0].name == {2, 3, 6}:
+    def can_rotate_simple(self, tab):
+        if tab[0].name == {2, 3, 6}:
             return True
         else:
-            size = self.check_block_size(tab)
             if tab[0].name == {1, 4}:
-                if size[2] >= 1:
+                if tab[1].y >= 1:
                     return True
                 return False
             else:
-                if size[2] >= 2:
+                if tab[1].y >= 2:
                     return True
                 return False
+
+    def can_rotate(self, tab, check):
+        if check:
+            return True
+        if self.can_rotate_simple(tab):
+            tmp = [Point() for _ in range(4)]
+            for i in range(4):
+                tmp[i].x = tab[i].x
+                tmp[i].y = tab[i].y
+            point = Point(tab[1].x, tab[1].y)
+            for i in range(4):
+                x = tab[i].y - point.y
+                y = tab[i].x - point.x
+                tmp[i].x = point.x - x
+                tmp[i].y = point.y + y
+                if self.blocksTab[tab[i].y][tab[i].x].empty:
+                    return False
+            return True
 
     def check_gameover(self):
         for x in range(N):
