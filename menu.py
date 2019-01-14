@@ -38,7 +38,7 @@ class Menu:
             if self.mouse_contained(x_pos, y_pos, x_pos + menu_button_w, y_pos + menu_button_h):
                 gameDisplay.blit(button_1, (x_pos, y_pos))
                 if pygame.mouse.get_pressed() == (1, 0, 0):
-                    if self.music and x%5 != 0:
+                    if self.music and x % 5 != 0:
                         button_sound.play()
                     self.open_function = x + 1
             else:
@@ -50,8 +50,8 @@ class Menu:
     def mouse_contained(self, x1, y1, x2, y2):
         x = pygame.mouse.get_pos()[0]
         y = pygame.mouse.get_pos()[1]
-        if x >= x1 and x<= x2:
-            if y >= y1 and y <= y2:
+        if x1 <= x <= x2:
+            if y1 <= y <= y2:
                 return True
             else:
                 return False
@@ -211,12 +211,15 @@ class Game:
         self.color = self.color_gen()
         self.color_next = self.color_gen(self.color)
         self.clock = pygame.time.Clock()
-        self.fps = 10
+        self.move_speed = 14
+        self.fps = 14
         self.tick = 0
         self.isEnd = True
         self.points = 0
         self.paused = False
         self.stop = False
+        self.level = 1
+        self.level_points = 0
 
         if self.Menu.music:
             start_game.play()
@@ -242,13 +245,15 @@ class Game:
             if pygame.key.get_pressed()[pygame.K_LEFT]:
                 xmv = -1
             if pygame.key.get_pressed()[pygame.K_DOWN]:
-                speed -= self.fps + 1
+                speed = 1
 
             self.tick += 1
             if self.tick % speed == 0:
                 ymv = 1
                 if pygame.key.get_pressed()[pygame.K_DOWN]:
                     self.points += 1
+                    self.level_points += 1
+                    print(self.level_points)
             if xmv != 0 or ymv != 0:
                 self.move(xmv, ymv)
             self.isEnd = self.check_height()
@@ -275,7 +280,6 @@ class Game:
             if self.stop is True:
                 return
             pygame.display.update()
-            self.clock.tick(60)
 
     def color_gen(self, last=-1):  # Generator liczb odpowiadajacych kolorom z pominieciem ostatniego.
         col = random.randint(0, len(self.blockColors) - 1)
@@ -375,6 +379,7 @@ class Game:
                     counter += 1
             if counter == N:
                 self.points += 200
+                self.level_points += 200
                 for line in range(y - 1, -1, -1):
                     for x in range(0, N):
                         self.blocksTab[line + 1][x].empty = self.blocksTab[line][x].empty
@@ -382,7 +387,8 @@ class Game:
 
     def view_background(self):
         gameDisplay.blit(background, (0, 0))
-        self.next_block_panel()
+        if self.level < 3:
+            self.next_block_panel()
         self.score_panel()
         gameDisplay.blit(play_panel, (pos_x - 25, pos_y - 25))
         pygame.draw.rect(gameDisplay, (98, 98, 98), (pos_x - 5, pos_y - 5, board_width + 10, board_height + 10))
@@ -414,13 +420,18 @@ class Game:
             for i in range(4):
                 tmp[i].x = tab[i].x
                 tmp[i].y = tab[i].y
-            point = Point(tab[1].x, tab[1].y)
+            point = Point(tmp[1].x, tmp[1].y)
             for i in range(4):
                 x = tab[i].y - point.y
                 y = tab[i].x - point.x
                 tmp[i].x = point.x - x
                 tmp[i].y = point.y + y
-                if self.blocksTab[tab[i].y][tab[i].x].empty:
+                if tmp[i].x < 0 or tmp[i].x > N - 1:
+                    return False
+                if tmp[i].y > M - 1:
+                    return False
+            for i in range(4):
+                if self.blocksTab[tmp[i].y][tmp[i].x].empty:
                     return False
             return True
 
@@ -452,7 +463,6 @@ class Game:
             text.write(str(high_scores[x])+",")
         text.write(str(high_scores[len(high_scores) - 1]))
         text.close()
-        print(high_scores)
         pygame.time.wait(2000)
 
     def pause_button(self, x=690, y=600):
@@ -479,17 +489,18 @@ class Game:
         if Menu.mouse_contained(self.Menu, x, y, x + 50, y + 50):
             gameDisplay.blit(button_inside2, (x + 3, y + 3))
             gameDisplay.blit(stop, (x, y))
-            if pygame.mouse.get_pressed() == (1, 0, 0):
-                if self.Menu.music:
-                    button_sound.play()
-                if self.paused:
-                    self.paused = False
-                    self.gameover(True)
-                else:
-                    self.gameover(False)
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if self.Menu.music:
+                        button_sound.play()
+                    if self.paused:
+                        self.paused = False
+                        self.gameover(True)
+                    else:
+                        self.gameover(False)
 
-                pygame.display.update()
-                self.stop = True
+                    pygame.display.update()
+                    self.stop = True
         else:
             gameDisplay.blit(button_inside1, (x + 3, y + 3))
             gameDisplay.blit(stop, (x, y))
@@ -525,14 +536,11 @@ class Game:
         x_max = tab[0].x
         y_min = tab[0].y
         y_max = tab[0].y
-        print(tab[0].x,tab[0].y)
         for i in range(1,4):
             if tab[i].x > x_max: x_max = tab[i].x
             if tab[i].x < x_min: x_min = tab[i].x
             if tab[i].y > y_max: y_max = tab[i].y
             if tab[i].y < y_min: y_min = tab[i].y
-            print(tab[i].x, tab[i].y)
-        print("###")
         return x_min, x_max, y_min, y_max
 
     def next_block_panel(self):
@@ -546,6 +554,10 @@ class Game:
     def score_panel(self):
         self.print_panel((pos_x - 200) // 2, pos_y + 332)
         self.print_score()
+        self.print_level()
+        if self.level_points >= 1000:
+            self.level_points -= 1000
+            self.level += 1
 
     def set_default_position(self, tab):
         size = self.check_block_size(tab)
@@ -564,6 +576,19 @@ class Game:
         for j in range(size):
             for i in range(4):
                 tab[i].x -= x
+
+    def print_level(self):
+        text = font.render('Level', True, white)
+        x = ((pos_x - 200) // 2) + (200 - text.get_width()) // 2
+        gameDisplay.blit(text, (x, pos_y + 420))
+        text = font.render(str(self.level), True, white)
+        x = ((pos_x - 200) // 2) + (200 - text.get_width()) // 2
+        gameDisplay.blit(text, (x, pos_y + 460))
+
+    def last_move(self):
+        pass
+
+
 
 # Config
 M = 20
