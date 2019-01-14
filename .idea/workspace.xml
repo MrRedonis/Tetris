@@ -2,6 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6f8b5f17-b26c-4f97-a2f4-4d43bbef0463" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/azure.bmp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/blue.bmp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/button.bmp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/button.ogg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/button2.bmp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/green.bmp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/grid.bmp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/move.ogg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/orange.bmp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/panel.bmp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/panel_kwadrat.bmp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/panel_kwadrat2.bmp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/panel_kwadrat3.bmp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/pause-play_button.bmp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/red.bmp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/rotate.ogg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/start_game.ogg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/stop.bmp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tło.bmp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/violet.bmp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/yellow.bmp" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/menu.py" afterPath="$PROJECT_DIR$/menu.py" />
     </list>
@@ -18,8 +39,8 @@
       <file leaf-file-name="menu.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/menu.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="233">
-              <caret line="414" column="0" lean-forward="true" selection-start-line="414" selection-start-column="0" selection-end-line="414" selection-end-column="0" />
+            <state relative-caret-position="7295">
+              <caret line="497" column="60" lean-forward="true" selection-start-line="497" selection-start-column="60" selection-end-line="497" selection-end-column="60" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -329,7 +350,14 @@
       <option name="project" value="LOCAL" />
       <updated>1547433921479</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Brak ostatniego ruchu. Dodanie do Options max lvl.">
+      <created>1547439018910</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1547439018910</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -378,7 +406,8 @@
     <MESSAGE value="Uniemożliwienie zachodzenia na siebie bloków podczas obracania." />
     <MESSAGE value="Skończone obracanie figur." />
     <MESSAGE value="Próba stworzenia &quot;ostatniego ruchu&quot;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Próba stworzenia &quot;ostatniego ruchu&quot;" />
+    <MESSAGE value="Brak ostatniego ruchu. Dodanie do Options max lvl." />
+    <option name="LAST_COMMIT_MESSAGE" value="Brak ostatniego ruchu. Dodanie do Options max lvl." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -502,8 +531,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/menu.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="233">
-          <caret line="414" column="0" lean-forward="true" selection-start-line="414" selection-start-column="0" selection-end-line="414" selection-end-column="0" />
+        <state relative-caret-position="7295">
+          <caret line="497" column="60" lean-forward="true" selection-start-line="497" selection-start-column="60" selection-end-line="497" selection-end-column="60" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>

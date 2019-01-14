@@ -201,7 +201,7 @@ class Menu:
             if pygame.mouse.get_pressed() == (1, 0, 0):
                 if self.music:
                     button_sound.play()
-                plik = open("wyniki.txt", "w")
+                plik = open("Docs\\wyniki.txt", "w")
                 plik.write("")
                 plik.close()
                 high_scores.clear()
@@ -215,13 +215,13 @@ class Game:
     def __init__(self, menu, max_lvl):
         self.Menu = menu
         self.max_lvl = max_lvl
-        self.bc_blue = pygame.transform.scale(pygame.image.load('blue.bmp'), (block_size, block_size))
-        self.bc_azure = pygame.transform.scale(pygame.image.load('azure.bmp'), (block_size, block_size))
-        self.bc_green = pygame.transform.scale(pygame.image.load('green.bmp'), (block_size, block_size))
-        self.bc_red = pygame.transform.scale(pygame.image.load('red.bmp'), (block_size, block_size))
-        self.bc_violet = pygame.transform.scale(pygame.image.load('violet.bmp'), (block_size, block_size))
-        self.bc_orange = pygame.transform.scale(pygame.image.load('orange.bmp'), (block_size, block_size))
-        self.grid = pygame.image.load('grid.bmp')
+        self.bc_blue = pygame.transform.scale(pygame.image.load('Graphics\\blue.bmp'), (block_size, block_size))
+        self.bc_azure = pygame.transform.scale(pygame.image.load('Graphics\\azure.bmp'), (block_size, block_size))
+        self.bc_green = pygame.transform.scale(pygame.image.load('Graphics\\green.bmp'), (block_size, block_size))
+        self.bc_red = pygame.transform.scale(pygame.image.load('Graphics\\red.bmp'), (block_size, block_size))
+        self.bc_violet = pygame.transform.scale(pygame.image.load('Graphics\\violet.bmp'), (block_size, block_size))
+        self.bc_orange = pygame.transform.scale(pygame.image.load('Graphics\\orange.bmp'), (block_size, block_size))
+        self.grid = pygame.image.load('Graphics\\grid.bmp')
 
         self.blockColors = [bc_yellow, self.bc_blue, self.bc_azure, self.bc_green, self.bc_red, self.bc_violet, self.bc_orange]
         self.blocksTab = [[Pole(0, False) for col in range(N)] for row in range(M)]
@@ -472,7 +472,7 @@ class Game:
         pygame.display.update()
         high_scores.append(self.points)
         InsertionSort(high_scores)
-        text = open("wyniki.txt", "w")
+        text = open("Docs\\wyniki.txt", "w")
         for x in range(len(high_scores) - 1):
             text.write(str(high_scores[x])+",")
         text.write(str(high_scores[len(high_scores) - 1]))
@@ -488,12 +488,12 @@ class Game:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if self.Menu.music:
                         button_sound.play()
-                    pygame.image.save(gameDisplay, 'surface.bmp')
+                    pygame.image.save(gameDisplay, 'Graphics\\surface.bmp')
                     if self.paused is False:
                         self.paused = True
                     else:
                         self.paused = False
-                    return self.game_pause(x, y, pygame.image.load('surface.bmp'))
+                    return self.game_pause(x, y, pygame.image.load('Graphics\\surface.bmp'))
         else:
             gameDisplay.blit(button_inside1, (x + 3, y + 3))
             gameDisplay.blit(pause, (x, y))
@@ -642,7 +642,7 @@ menu_texts = ["Play", "High Scores", "Options", "About", "Quit"]
 about_text = "Game crated by Damian Jurkiewicz (MrRedonis). Main menu background graphic created by Freepic."
 
 high_scores = []
-text = open("wyniki.txt", "r")
+text = open("Docs\\wyniki.txt", "r")
 readings = (text.readline())
 text.close()
 if not readings == "":
@@ -651,21 +651,21 @@ if not readings == "":
         high_scores.append(int(words[x]))
 
 # Obrazy i zdjęcia
-bc_yellow = pygame.transform.scale(pygame.image.load('yellow.bmp'), (block_size, block_size))
-background = pygame.transform.scale(pygame.image.load('tło.bmp'), (display_width, display_height))
-menu_panel = pygame.transform.scale(pygame.image.load('panel.bmp'), (board_width, board_height))
-play_panel = pygame.transform.scale(pygame.image.load('panel.bmp'), (board_width + 50, board_height + 50))
-obszar = pygame.transform.scale(pygame.image.load('panel_kwadrat.bmp'), (200, 200))
-obszar_light = pygame.transform.scale(pygame.image.load('panel_kwadrat2.bmp'), (180, 180))
-button_1 = pygame.transform.scale(pygame.image.load('button.bmp'), (menu_button_w, menu_button_h))
-button_2 = pygame.transform.scale(pygame.image.load('button2.bmp'), (menu_button_w, menu_button_h))
+bc_yellow = pygame.transform.scale(pygame.image.load('Graphics\\yellow.bmp'), (block_size, block_size))
+background = pygame.transform.scale(pygame.image.load('Graphics\\tło.bmp'), (display_width, display_height))
+menu_panel = pygame.transform.scale(pygame.image.load('Graphics\\panel.bmp'), (board_width, board_height))
+play_panel = pygame.transform.scale(pygame.image.load('Graphics\\panel.bmp'), (board_width + 50, board_height + 50))
+obszar = pygame.transform.scale(pygame.image.load('Graphics\\panel_kwadrat.bmp'), (200, 200))
+obszar_light = pygame.transform.scale(pygame.image.load('Graphics\\panel_kwadrat2.bmp'), (180, 180))
+button_1 = pygame.transform.scale(pygame.image.load('Graphics\\button.bmp'), (menu_button_w, menu_button_h))
+button_2 = pygame.transform.scale(pygame.image.load('Graphics\\button2.bmp'), (menu_button_w, menu_button_h))
 
 # Przyciski play/pause/stop
-button_background = pygame.transform.scale(pygame.image.load('panel_kwadrat.bmp'), (50, 50))
-button_inside1 = pygame.transform.scale(pygame.image.load('panel_kwadrat2.bmp'), (44, 44))
-button_inside2 = pygame.transform.scale(pygame.image.load('panel_kwadrat3.bmp'), (44, 44))
-pause = pygame.transform.scale(pygame.image.load('pause-play_button.bmp'), (50, 50))
-stop = pygame.transform.scale(pygame.image.load('stop.bmp'), (50, 50))
+button_background = pygame.transform.scale(pygame.image.load('Graphics\\panel_kwadrat.bmp'), (50, 50))
+button_inside1 = pygame.transform.scale(pygame.image.load('Graphics\\panel_kwadrat2.bmp'), (44, 44))
+button_inside2 = pygame.transform.scale(pygame.image.load('Graphics\\panel_kwadrat3.bmp'), (44, 44))
+pause = pygame.transform.scale(pygame.image.load('Graphics\\pause-play_button.bmp'), (50, 50))
+stop = pygame.transform.scale(pygame.image.load('Graphics\\stop.bmp'), (50, 50))
 
 # Initialization
 gameDisplay = pygame.display.set_mode((display_width, display_height), pygame.SRCALPHA)
@@ -673,10 +673,10 @@ pygame.display.set_caption('Tetris')
 pygame.display.set_icon(bc_yellow)
 
 # Music
-start_game = pygame.mixer.Sound('start_game.ogg')
-rotate_sound = pygame.mixer.Sound('rotate.ogg')
-button_sound = pygame.mixer.Sound('button.ogg')
-move_sound = pygame.mixer.Sound('move.ogg')
+start_game = pygame.mixer.Sound('Sounds\\start_game.ogg')
+rotate_sound = pygame.mixer.Sound('Sounds\\rotate.ogg')
+button_sound = pygame.mixer.Sound('Sounds\\button.ogg')
+move_sound = pygame.mixer.Sound('Sounds\\move.ogg')
 
 if __name__ == "__main__":
     Menu()
