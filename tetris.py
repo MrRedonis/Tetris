@@ -149,8 +149,6 @@ class Menu:
         gameDisplay.blit(text2, (x_pos + (menu_button_w - text2.get_width()) // 2, y_pos))
         pygame.display.update()
 
-
-
     def about(self):
         x_pos = pos_x + 50
         y_pos = pos_y + 50
@@ -282,6 +280,8 @@ class Game:
                 self.move(xmv, ymv)
 
             self.isEnd = self.check_height()
+            if not self.isEnd:
+                self.last_move()
             self.view_background()
             self.print_block(self.color, self.tab, pos_x, pos_y)
             self.end_block()
@@ -458,8 +458,8 @@ class Game:
 
     def gameover(self, paused=False):
         if not paused:
-            pygame.image.save(gameDisplay, 'surface.bmp')
-        gameDisplay.blit(pygame.image.load('surface.bmp'), (0, 0))
+            pygame.image.save(gameDisplay, 'Graphics\\surface.bmp')
+        gameDisplay.blit(pygame.image.load('Graphics\\surface.bmp'), (0, 0))
         gameDisplay.blit(button_background, (pause_x, pause_y))
         gameDisplay.blit(button_inside1, (pause_x + 3, pause_y + 3))
         gameDisplay.blit(pause, (pause_x, pause_y))
@@ -569,7 +569,7 @@ class Game:
         self.print_panel((pos_x - 200) // 2, pos_y + 332)
         self.print_score()
         self.print_level()
-        if self.level <= self.max_lvl + 1:
+        if self.level < self.max_lvl + 1:
             if self.level_points >= 1000:
                 self.level_points -= 1000
                 self.level += 1
@@ -610,6 +610,18 @@ class Game:
             self.tab_next = self.figure()
             self.color = self.color_next
             self.color_next = self.color_gen(self.color)
+
+    def last_move(self):
+        if pygame.key.get_pressed()[pygame.K_RIGHT]:
+            xmv = 1
+            self.move(xmv, 0)
+        if pygame.key.get_pressed()[pygame.K_LEFT]:
+            xmv = -1
+            self.move(xmv, 0)
+        if pygame.key.get_pressed()[pygame.K_UP]:
+            self.tab = self.rotate(self.isEnd, self.tab)
+        self.isEnd = self.check_height()
+
 
 
 
