@@ -2,17 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6f8b5f17-b26c-4f97-a2f4-4d43bbef0463" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Graphics/tło.bmp" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Graphics/azure.bmp" afterPath="$PROJECT_DIR$/Graphics/azure.bmp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Graphics/blue.bmp" afterPath="$PROJECT_DIR$/Graphics/blue.bmp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Graphics/green.bmp" afterPath="$PROJECT_DIR$/Graphics/green.bmp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Graphics/orange.bmp" afterPath="$PROJECT_DIR$/Graphics/orange.bmp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Graphics/red.bmp" afterPath="$PROJECT_DIR$/Graphics/red.bmp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Graphics/violet.bmp" afterPath="$PROJECT_DIR$/Graphics/violet.bmp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Graphics/yellow.bmp" afterPath="$PROJECT_DIR$/Graphics/yellow.bmp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tetris.py" afterPath="$PROJECT_DIR$/tetris.py" />
     </list>
     <ignored path="wyniki.txt" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -27,8 +17,8 @@
       <file leaf-file-name="tetris.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tetris.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="503">
-              <caret line="660" column="31" lean-forward="true" selection-start-line="660" selection-start-column="31" selection-end-line="660" selection-end-column="31" />
+            <state relative-caret-position="14427">
+              <caret line="687" column="57" lean-forward="true" selection-start-line="687" selection-start-column="57" selection-end-line="687" selection-end-column="57" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -380,7 +370,14 @@
       <option name="project" value="LOCAL" />
       <updated>1547466447268</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="Usunięcie elementów graficznych bez prawa do publikacji.">
+      <created>1547911786384</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1547911786384</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -432,7 +429,8 @@
     <MESSAGE value="Brak ostatniego ruchu. Dodanie do Options max lvl." />
     <MESSAGE value="Dodanie nazw podfolderów." />
     <MESSAGE value="Zrobiona prototypowa wersja last_move()." />
-    <option name="LAST_COMMIT_MESSAGE" value="Zrobiona prototypowa wersja last_move()." />
+    <MESSAGE value="Usunięcie elementów graficznych bez prawa do publikacji." />
+    <option name="LAST_COMMIT_MESSAGE" value="Usunięcie elementów graficznych bez prawa do publikacji." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -507,8 +505,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tetris.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="503">
-          <caret line="660" column="31" lean-forward="true" selection-start-line="660" selection-start-column="31" selection-end-line="660" selection-end-column="31" />
+        <state relative-caret-position="14427">
+          <caret line="687" column="57" lean-forward="true" selection-start-line="687" selection-start-column="57" selection-end-line="687" selection-end-column="57" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
