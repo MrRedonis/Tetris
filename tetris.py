@@ -651,7 +651,7 @@ pause_y = 600
 font = pygame.font.SysFont("comicsansms", 30)
 menu_font = pygame.font.SysFont("comicsansms", 20)
 menu_texts = ["Play", "High Scores", "Options", "About", "Quit"]
-about_text = "Game crated by Damian Jurkiewicz (MrRedonis). Main menu background graphic created by Freepic."
+about_text = "Game crated by Damian Jurkiewicz (MrRedonis)."
 
 high_scores = []
 text = open("Docs\\wyniki.txt", "r")
@@ -664,7 +664,7 @@ if not readings == "":
 
 # Obrazy i zdjęcia
 bc_yellow = pygame.transform.scale(pygame.image.load('Graphics\\yellow.bmp'), (block_size, block_size))
-background = pygame.transform.scale(pygame.image.load('Graphics\\tło.bmp'), (display_width, display_height))
+background = pygame.transform.scale(pygame.image.load('Graphics\\background.bmp'), (display_width, display_height))
 menu_panel = pygame.transform.scale(pygame.image.load('Graphics\\panel.bmp'), (board_width, board_height))
 play_panel = pygame.transform.scale(pygame.image.load('Graphics\\panel.bmp'), (board_width + 50, board_height + 50))
 obszar = pygame.transform.scale(pygame.image.load('Graphics\\panel_kwadrat.bmp'), (200, 200))
