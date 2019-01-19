@@ -1,11 +1,5 @@
-README_PL:
+README:
+"Tetris" game created in Python 3 using PyGame by MrRedonis.
 
-Gra "Tetris" stworzona w Pythonie 3 przy użyciu PyGame.
+My first code which is longer than 500 lines. From the public version I deleted graphic files for which I do not have license rights. You can easily replace graphic files for yours. 
 
-Grafika tła stworzona przez Freepik.
-
-README_ENG:
-
-"Tetris" game created in Python 3 using PyGame.
-
-Background graphic created by Freepik.
